@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Folivance Intensive Spray</title>
+  <meta name="description" content="Folivance Intensive Spray — عناية يومية بفروة الرأس بتركيبة خفيفة Water-Based وبدون Minoxidil.">
+  <meta name="theme-color" content="#F7F1E8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=El+Messiri:wght@500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="frames/frame_0001.webp">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+
+  <!-- Loader -->
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__inner">
+      <span class="loader__brand">Folivance</span>
+      <div class="loader__bar"><span id="loaderBar"></span></div>
+      <span class="loader__pct"><span id="loaderPct">0</span>%</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <a class="header__brand" href="#top" aria-label="Folivance">Folivance</a>
+    <a class="header__cta" href="#order">ابدأ روتينك</a>
+  </header>
+
+  <main id="top">
+    <!-- Pinned scroll story: 500vh -->
+    <section class="story" id="story" aria-label="Folivance Intensive Spray">
+      <div class="story__stage">
+        <canvas class="story__canvas" id="frameCanvas" aria-hidden="true"></canvas>
+
+        <!-- soft light wash behind the text side -->
+        <div class="scrim scrim--right" aria-hidden="true"></div>
+        <div class="scrim scrim--left" aria-hidden="true"></div>
+
+        <!-- Phase 1 -->
+        <div class="phase phase--1" data-phase="1">
+          <div class="phase__meta"><span class="phase__num">01</span><span class="phase__line"></span><span class="phase__label">Folivance Intensive Spray</span></div>
+          <h1 class="phase__title" data-split>كل شعرة تستحق<br>عناية <em>مختلفة</em></h1>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase phase--2" data-phase="2">
+          <div class="phase__meta"><span class="phase__num">02</span><span class="phase__line"></span><span class="phase__label">Water-Based</span></div>
+          <h2 class="phase__title" data-split>تركيبة <em>خفيفة</em>،<br>من غير إحساس دهني</h2>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase phase--3" data-phase="3">
+          <div class="phase__meta"><span class="phase__num">03</span><span class="phase__line"></span><span class="phase__label">Minoxidil-Free</span></div>
+          <h2 class="phase__title" data-split>بدون <em>مينوكسيديل</em></h2>
+          <p class="phase__sub">عناية يومية بفروة الرأس</p>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="phase phase--4" data-phase="4">
+          <div class="phase__meta"><span class="phase__num">04</span><span class="phase__line"></span><span class="phase__label">Why Folivance</span></div>
+          <ul class="features">
+            <li class="feature"><span class="feature__rule"></span><span class="feature__num">i</span><span class="feature__text">مستخلصات نباتية مختارة</span></li>
+            <li class="feature"><span class="feature__rule"></span><span class="feature__num">ii</span><span class="feature__text">دعم قوة الجذور</span></li>
+            <li class="feature"><span class="feature__rule"></span><span class="feature__num">iii</span><span class="feature__text">العناية بمظهر الشعر وكثافته</span></li>
+          </ul>
+        </div>
+
+        <!-- Phase progress -->
+        <ol class="rail" aria-hidden="true">
+          <li></li><li></li><li></li><li></li>
+        </ol>
+
+        <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+          <span>اسحب لتحت</span>
+          <i></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Offer -->
+    <section class="offer" id="order">
+      <div class="offer__media">
+        <img src="frames/frame_0047.webp" alt="عبوة Folivance Intensive Spray السوداء" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <div class="offer__body">
+        <span class="offer__eyebrow">Folivance Intensive Spray</span>
+        <h2 class="offer__title">ابدأ روتين العناية بفروة راسك النهارده</h2>
+        <div class="offer__price">
+          <span class="offer__amount" id="priceAmount">400</span>
+          <span class="offer__currency">ج.م</span>
+          <span class="offer__bundle">ضمن <bdi>Folivance Collection</bdi></span>
+        </div>
+        <a class="btn" href="https://folivance.shop/products/folivance-collection" id="orderBtn">
+          <span>اطلب دلوقتي</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </a>
+        <p class="offer__meta"><bdi>Folivance Intensive Spray</bdi> بحجم <bdi>125ml</bdi>، بتركيبة <bdi>Water-Based</bdi> وبدون <bdi>Minoxidil</bdi>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Folivance</span>
+    <span>© 2026</span>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

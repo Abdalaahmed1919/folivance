@@ -1,0 +1,561 @@
+/* ==========================================================
+   Folivance Intensive Spray — landing page
+   --bg is sampled from frames/frame_0001.webp (most common pixel)
+   ========================================================== */
+
+/* Brand tokens follow folivance.shop (green #182D09, sage #6E8A57,
+   beige #E3D8C8, Playfair Display / El Messiri / IBM Plex Sans Arabic). */
+:root {
+  --bg: #F7F1E8;            /* rgb(247,241,232) — first frame background */
+  --ink: #2F2E2C;           /* site body text */
+  --ink-soft: #5E5B55;      /* site muted text */
+  --black: #141412;         /* bottle black */
+  --olive: #6E8A57;         /* site eyebrow green */
+  --olive-deep: #182D09;    /* site primary green (headings, buttons) */
+  --sage: #9CAF88;
+  --beige: #E3D8C8;         /* site hairline border */
+  --gold: #B8964A;          /* bottle label gold, used as a fine accent */
+  --gold-soft: #D9C08A;
+  --cream: #FBF7F1;
+  --glass: rgba(251, 247, 241, 0.7);
+  --glass-line: rgba(227, 216, 200, 0.9);
+
+  --font-ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-head: "Playfair Display", "El Messiri", serif;
+  --font-latin: "Playfair Display", Georgia, serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { background: var(--bg); }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ar);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.is-loading { overflow: hidden; }
+
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ---------- Loader ---------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  transition: opacity 0.9s var(--ease), visibility 0.9s;
+}
+.loader.is-done { opacity: 0; visibility: hidden; }
+
+.loader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: min(280px, 70vw);
+}
+.loader__brand {
+  font-family: var(--font-latin);
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--olive-deep);
+}
+.loader__bar {
+  width: 100%;
+  height: 2px;
+  background: rgba(27, 27, 25, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader__bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--olive), var(--gold));
+  transform-origin: right;
+  transition: width 0.25s linear;
+}
+.loader__pct {
+  font-family: var(--font-latin);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  direction: ltr;
+}
+
+/* ---------- Header ---------- */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px clamp(16px, 4vw, 56px);
+  pointer-events: none;
+}
+.header > * { pointer-events: auto; }
+
+.header__brand {
+  font-family: var(--font-latin);
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--olive-deep);
+  letter-spacing: 0.01em;
+}
+.header__cta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 9px 22px;
+  border-radius: 99px;
+  color: #fff;
+  background: var(--olive-deep);
+  box-shadow: 0 8px 24px rgba(24, 45, 9, 0.18);
+  transition: transform 0.3s var(--ease);
+}
+.header__cta:hover { transform: translateY(-1px); }
+
+/* ---------- Story (500vh, sticky stage) ---------- */
+.story {
+  position: relative;
+  height: 500vh;
+}
+.story__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+}
+.story__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* soft light vignette so text sits on a calm surface */
+.story__stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(247, 241, 232, 0.35) 100%);
+}
+
+/* ---------- Phase text: editorial type straight on the scene ---------- */
+
+/* a soft light wash on the text side keeps it readable over busy footage */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+.scrim--right {
+  background: linear-gradient(to left,
+    rgba(247, 241, 232, 0.94) 0%,
+    rgba(247, 241, 232, 0.72) 24%,
+    rgba(247, 241, 232, 0) 54%);
+}
+.scrim--left {
+  background: linear-gradient(to right,
+    rgba(247, 241, 232, 0.94) 0%,
+    rgba(247, 241, 232, 0.72) 26%,
+    rgba(247, 241, 232, 0) 56%);
+}
+
+.phase {
+  position: absolute;
+  z-index: 2;
+  width: min(38vw, 560px);
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, transform, filter;
+}
+
+/* desktop positions: placed on the side opposite the subject
+   (vertical centering via yPercent is set in main.js so GSAP owns the transform) */
+.phase--1,
+.phase--2 { top: 50%; right: clamp(40px, 7vw, 140px); }
+.phase--3,
+.phase--4 { top: 50%; left: clamp(40px, 7vw, 140px); }
+
+.phase__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.phase__num {
+  font-family: var(--font-latin);
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold);
+  direction: ltr;
+}
+.phase__line {
+  flex: 0 0 64px;
+  height: 1px;
+  background: linear-gradient(to left, var(--gold), rgba(184, 150, 74, 0.2));
+  transform-origin: right;
+}
+.phase__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--olive);
+  direction: ltr;
+}
+
+.phase__title {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 4.6vw, 5rem);
+  line-height: 1.22;
+  color: var(--olive-deep);
+  text-shadow: 0 0 40px rgba(247, 241, 232, 0.65);
+}
+.phase__title em { font-style: normal; }
+/* gradient sits on each word so it survives the per-word transforms */
+.phase__title em .w {
+  padding-bottom: 0.08em;
+  background: linear-gradient(100deg, var(--olive) 0%, #8A7A3A 55%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+/* words wrapped by main.js for the reveal */
+.phase__title .w {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+.phase__sub {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 0;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.phase__sub::before {
+  content: "";
+  flex: 0 0 32px;
+  height: 1px;
+  background: var(--olive);
+}
+
+/* the offer section keeps the site's pill eyebrow */
+.offer__eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: #fff;
+  border: 1px solid var(--beige);
+  font-family: var(--font-ar);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--olive-deep);
+  direction: ltr;
+}
+
+/* ---------- Features (phase 4) ---------- */
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.feature {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  padding: 22px 0;
+}
+.feature:last-child { border-bottom: 1px solid transparent; }
+.feature__rule {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(to left, rgba(24, 45, 9, 0.35), rgba(24, 45, 9, 0.05));
+  transform-origin: right;
+}
+.feature__num {
+  flex: 0 0 2.2em;
+  font-family: var(--font-latin);
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold);
+  direction: ltr;
+  text-align: right;
+}
+.feature__text {
+  font-family: var(--font-head);
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--olive-deep);
+}
+
+/* ---------- Rail ---------- */
+.rail {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: clamp(10px, 1.6vw, 26px);
+  transform: translateY(-50%);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.rail li {
+  width: 3px;
+  height: 22px;
+  border-radius: 3px;
+  background: rgba(27, 27, 25, 0.16);
+  transition: background 0.4s var(--ease), height 0.4s var(--ease);
+}
+.rail li.is-active { background: var(--olive-deep); height: 36px; }
+
+/* ---------- Scroll hint ---------- */
+.scroll-hint {
+  position: absolute;
+  z-index: 3;
+  bottom: 28px;
+  right: clamp(24px, 6vw, 110px); /* under the phase text, clear of the bottle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.scroll-hint i {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(var(--gold), transparent);
+  animation: hint 1.8s var(--ease) infinite;
+  transform-origin: top;
+}
+@keyframes hint {
+  0%   { transform: scaleY(0); opacity: 1; }
+  70%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ---------- Offer ---------- */
+.offer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  min-height: 100vh;
+  padding: clamp(80px, 12vh, 140px) clamp(16px, 6vw, 110px);
+  background: var(--bg);
+}
+.offer__media {
+  order: 2;
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+.offer__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  /* frame 47: black bottle with the whole sprayer in frame (frame 1 is cropped
+     at the top, earlier frames are mid colour-shift). Its background is close
+     to the page's, so soft edges make it seamless; the bottom fade hides
+     where the label leaves the frame. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 78%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, #000 78%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-composite: intersect;
+}
+.offer__body { order: 1; max-width: 520px; }
+
+.offer__title {
+  margin: 0 0 28px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  line-height: 1.35;
+  color: var(--olive-deep);
+}
+.offer__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin-bottom: 30px;
+}
+.offer__bundle {
+  flex-basis: 100%;
+  font-size: 0.9rem;
+  color: var(--olive);
+}
+.offer__amount {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 5vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--olive-deep);
+}
+.offer__currency {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 40px;
+  border-radius: 99px;
+  font-family: var(--font-ar);
+  font-size: 1.06rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  background: var(--olive-deep);
+  box-shadow: 0 8px 24px rgba(24, 45, 9, 0.18);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--gold-soft);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.4s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(24, 45, 9, 0.26); }
+.btn:hover svg { transform: translateX(-4px); }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+.offer__meta {
+  margin: 22px 0 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+.offer__meta bdi { font-weight: 500; color: var(--ink); }
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 28px clamp(16px, 6vw, 110px);
+  border-top: 1px solid var(--beige);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--bg);
+}
+.footer span:first-child { font-family: var(--font-latin); font-size: 1.1rem; font-weight: 600; color: var(--olive-deep); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+  .header { padding: 16px; }
+  .header__brand { font-size: 1.35rem; }
+  .header__cta { padding: 8px 16px; font-size: 0.85rem; }
+
+  /* every phase moves to the bottom band, clear of the centered subject */
+  .phase,
+  .phase--1,
+  .phase--2,
+  .phase--3,
+  .phase--4 {
+    top: auto;
+    left: 20px;
+    right: 20px;
+    bottom: calc(40px + env(safe-area-inset-bottom));
+    width: auto;
+  }
+  /* on mobile the wash rises from the bottom instead of a side */
+  .scrim--right,
+  .scrim--left {
+    background: linear-gradient(to top,
+      rgba(247, 241, 232, 0.96) 0%,
+      rgba(247, 241, 232, 0.78) 30%,
+      rgba(247, 241, 232, 0) 58%);
+  }
+  .phase__meta { margin-bottom: 14px; gap: 10px; }
+  .phase__line { flex-basis: 40px; }
+  .phase__label { font-size: 0.66rem; letter-spacing: 0.2em; }
+  .phase__title { font-size: clamp(2.1rem, 10vw, 2.7rem); }
+  .phase__sub { font-size: 1.05rem; margin-top: 14px; }
+
+  .feature { padding: 14px 0; gap: 14px; }
+  .feature__num { font-size: 0.95rem; }
+  .feature__text { font-size: 1.25rem; }
+
+  .rail { top: 84px; right: 16px; transform: none; display: flex; gap: 6px; }
+  .rail li { width: 18px; height: 3px; }
+  .rail li.is-active { width: 30px; height: 3px; }
+
+  .scroll-hint { display: none; }
+
+  .offer {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 72px 16px 64px;
+    text-align: center;
+  }
+  .offer__media { order: 1; aspect-ratio: 4 / 5; max-width: 360px; width: 100%; margin: 0 auto; }
+  .offer__body { order: 2; margin: 0 auto; }
+  .offer__price { justify-content: center; }
+  .btn { width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint i { animation: none; }
+  .loader { transition: none; }
+}
